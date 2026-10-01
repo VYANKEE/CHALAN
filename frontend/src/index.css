@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+@theme {
+  /* Chalan design system: near-black "ink" surfaces, warm paper-white text,
+     one brass/seal accent (evokes an official document stamp - fitting for
+     an invoice/challan product, distinct from generic SaaS blue/indigo).
+     Status colors (auto-approve/review/needs-review) stay separate from the
+     brand accent so data never gets visually confused with chrome. */
+  --color-ink-950: #08080a;
+  --color-ink-900: #0e0e11;
+  --color-ink-800: #141417;
+  --color-ink-700: #1c1c20;
+  --color-ink-600: #28282e;
+  --color-ink-500: #3a3a42;
+
+  --color-paper-50: #f7f5f0;
+  --color-paper-200: #d8d5cc;
+  --color-paper-400: #9c988e;
+  --color-paper-600: #6b675f;
+
+  --color-brass-300: #f0c987;
+  --color-brass-400: #e3a33e;
+  --color-brass-500: #cc8c28;
+  --color-brass-600: #a8721e;
+
+  --color-emerald-glow: #4ade80;
+  --color-amber-glow: #fbbf24;
+  --color-rose-glow: #fb7185;
+
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-ink-950);
+}
+
+body {
+  @apply antialiased;
+  background: var(--color-ink-950);
+  color: var(--color-paper-50);
+  font-family: var(--font-sans);
+  margin: 0;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-brass-400);
+  color: var(--color-ink-950);
+}
+
+/* Custom scrollbar - thin, matches the ink palette instead of the default
+   OS chrome, which would clash with a deliberately dark, designed page. */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-600);
+  border-radius: 999px;
+  border: 2px solid var(--color-ink-950);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-500);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-data {
+  font-family: var(--font-mono);
+}
+
+/* Subtle film-grain texture over dark sections - keeps large flat black
+   areas from looking dead/plasticky on screen (Awwwards-site staple, cheap
+   to do with a repeating SVG noise data-uri, no image asset needed). */
+.grain {
+  position: relative;
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Custom cursor - only ever enabled (via JS adding this class to <html>) on
+   fine-pointer, non-touch, no-reduced-motion desktops. Everywhere else the
+   real cursor stays untouched, so this rule alone is inert on mobile. */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 999px;
+  background: var(--color-brass-400);
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 999px;
+  border: 1px solid var(--color-paper-200);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 9998;
+  will-change: transform, width, height, margin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-950);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

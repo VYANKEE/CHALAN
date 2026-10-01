@@ -1,0 +1,41 @@
+# Invoice Document Intelligence - core dependencies
+# Pinned to versions actually installed/tested in this project's venv.
+
+torch==2.14.0
+transformers==5.17.0
+peft>=0.21.0
+accelerate>=1.0.0
+
+numpy==2.5.2
+pillow==12.3.0
+pytesseract==0.3.13
+scipy==1.18.1
+requests==2.34.2
+
+# Phase 6 (calibration): temperature scaling done via plain numpy grid search,
+# scikit-learn was NOT needed after all - reliability diagram needs matplotlib.
+matplotlib
+
+# Phase 7 (ONNX export + INT8 quantization):
+onnx
+onnxruntime
+
+# torch 2.14's torch.onnx.export() now unconditionally imports onnxscript
+# internally (its dynamo-based exporter path) - needed even though we don't
+# call anything onnxscript-specific ourselves.
+onnxscript
+
+# Phase 8 (FastAPI backend): API server, job queue, DB, real-time status push.
+fastapi
+uvicorn[standard]
+sqlalchemy
+psycopg2-binary
+celery
+redis
+pydantic-settings
+python-multipart
+websockets
+
+# Phase 8 testing (dummy backend lets these run without GPU/model files).
+pytest
+httpx

@@ -1,0 +1,17 @@
+venv/
+models/
+data/raw/
+data/synthetic/
+data/processed/
+__pycache__/
+*.pyc
+.env
+.ipynb_checkpoints/
+# Phase 8 (FastAPI backend)
+data/uploads/
+*.db
+.pytest_cache/
+
+# scratch / diagnostic output, not a repo artifact
+retest_report.json
+__pycache__/
